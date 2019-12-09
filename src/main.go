@@ -5,5 +5,6 @@ import (
 )
 
 func main() {
-	fmt.Println("OK")
+	settingName := "MainPagePagination"
+	fmt.Println("Settings name is ", settingName)
 }

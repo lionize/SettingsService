@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+
+  mongo-for-settings-service:
+    image: mongo:latest
+    hostname: mongo
+    domainname: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=9fP30ErG0fBv5R
+    ports:
+      - "52540:27017"
+    networks:
+      - lionize
+
+networks:
+      lionize:
+        name: lionize
+        driver: bridge

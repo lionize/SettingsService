@@ -39,4 +39,58 @@ func main() {
 	}
 
 	fmt.Println("Connected to MongoDB!")
+
+	collection := client.Database("test").Collection("trainers")
+
+	ash := Trainer{"Ash", 10, "Pallet Town"}
+	misty := Trainer{"Misty", 10, "Cerulean City"}
+	brock := Trainer{"Brock", 15, "Pewter City"}
+
+	insertResult, err := collection.InsertOne(context.TODO(), ash)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("Inserted a single document: ", insertResult.InsertedID)
+
+	trainers := []interface{}{misty, brock}
+
+	insertManyResult, err := collection.InsertMany(context.TODO(), trainers)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("Inserted multiple documents: ", insertManyResult.InsertedIDs)
+
+	filter := bson.D{{"name", "Ash"}}
+
+	update := bson.D{
+		{"$inc", bson.D{
+			{"age", 1},
+		}},
+	}
+
+	updateResult, err := collection.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("Matched %v documents and updated %v documents.\n", updateResult.MatchedCount, updateResult.ModifiedCount)
+
+	// create a value into which the result can be decoded
+	var result Trainer
+
+	err = collection.FindOne(context.TODO(), filter).Decode(&result)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("Found a single document: %+v\n", result)
+
+	err = client.Disconnect(context.TODO())
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Connection to MongoDB closed.")
 }

@@ -1,3 +1,17 @@
+Task InstallPackages {
+    Exec { go get "github.com/urfave/cli" }
+    Exec { go get "github.com/moby/buildkit/frontend/dockerfile/parser" }
+    Exec { go get "github.com/docker/distribution/reference" }
+}
+
+Task Format -Depends Clean {
+    Exec { go fmt $script:srcFolder }
+}
+
+Task Clean -Depends Init {
+    Exec { go clean $script:srcFolder }
+}
+
 Task Init {
     $date = Get-Date
     $ticks = $date.Ticks

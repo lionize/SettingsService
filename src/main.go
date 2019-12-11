@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -22,7 +23,7 @@ func main() {
 	fmt.Println("Settings name is ", settingName)
 
 	// Set client options
-	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
+	clientOptions := options.Client().ApplyURI("mongodb://root:9fP30ErG0fBv5R@localhost:52540")
 
 	// Connect to MongoDB
 	client, err := mongo.Connect(context.TODO(), clientOptions)
@@ -87,10 +88,57 @@ func main() {
 
 	fmt.Printf("Found a single document: %+v\n", result)
 
+	// Pass these options to the Find method
+	findOptions := options.Find()
+	findOptions.SetLimit(2)
+
+	// Here's an array in which you can store the decoded documents
+	var results []*Trainer
+
+	// Passing bson.D{{}} as the filter matches all documents in the collection
+	cur, err := collection.Find(context.TODO(), bson.D{{}}, findOptions)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Finding multiple documents returns a cursor
+	// Iterating through the cursor allows us to decode documents one at a time
+	for cur.Next(context.TODO()) {
+
+		// create a value into which the single document can be decoded
+		var elem Trainer
+		err := cur.Decode(&elem)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		results = append(results, &elem)
+	}
+
+	if err := cur.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	// Close the cursor once finished
+	cur.Close(context.TODO())
+
+	fmt.Printf("Found multiple documents (array of pointers): %+v\n", results)
+
+	deleteResult, err := collection.DeleteMany(context.TODO(), bson.D{{}})
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("Deleted %v documents in the trainers collection\n", deleteResult.DeletedCount)
+
 	err = client.Disconnect(context.TODO())
 
 	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Println("Connection to MongoDB closed.")
+
+	for i := 30 - 1; i >= 0; i-- {
+		fmt.Print("\r    \r", i, " ")
+		time.Sleep(time.Second)
+	}
 }

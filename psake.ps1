@@ -37,6 +37,8 @@ Task PreBuild -Depends Init, Clean, Format, InstallPackages {
 
 Task InstallPackages {
     Exec { go get "go.mongodb.org/mongo-driver/mongo" }
+    Exec { go get "go.mongodb.org/mongo-driver/bson" }
+    Exec { go get "go.mongodb.org/mongo-driver/mongo/options" }
 }
 
 Task Format -Depends Clean {

@@ -1,7 +1,5 @@
 Task InstallPackages {
-    Exec { go get "github.com/urfave/cli" }
-    Exec { go get "github.com/moby/buildkit/frontend/dockerfile/parser" }
-    Exec { go get "github.com/docker/distribution/reference" }
+    Exec { go get "go.mongodb.org/mongo-driver" }
 }
 
 Task Format -Depends Clean {

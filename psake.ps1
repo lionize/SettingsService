@@ -32,10 +32,11 @@ Task BuildLinux64 -Depends PreBuild {
 }
 
 Task PreBuild -Depends Init, Clean, Format, InstallPackages {
+    $script:publishFolder = Join-Path -Path $script:trashFolder -ChildPath "bin"
 }
 
 Task InstallPackages {
-    Exec { go get "go.mongodb.org/mongo-driver" }
+    Exec { go get "go.mongodb.org/mongo-driver/mongo" }
 }
 
 Task Format -Depends Clean {

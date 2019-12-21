@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -136,9 +135,4 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Println("Connection to MongoDB closed.")
-
-	for i := 30 - 1; i >= 0; i-- {
-		fmt.Print("\r    \r", i, " ")
-		time.Sleep(time.Second)
-	}
 }

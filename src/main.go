@@ -21,11 +21,16 @@ func main() {
 	settingName := "MainPagePagination"
 	fmt.Println("Settings name is ", settingName)
 
+	client, err := create_mongo_client()
+	if err != nil {
+		log.Fatal(err)
+	}
+	
 	// Set client options
 	clientOptions := options.Client().ApplyURI("mongodb://root:9fP30ErG0fBv5R@localhost:52540")
 
 	// Connect to MongoDB
-	client, err := mongo.Connect(context.TODO(), clientOptions)
+	client, err = mongo.Connect(context.TODO(), clientOptions)
 
 	if err != nil {
 		log.Fatal(err)

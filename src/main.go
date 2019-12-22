@@ -28,13 +28,15 @@ func main() {
 		log.Fatal(err)
 	}
 
-	docid, err := get_default_settings(database, path)
+	docid, defaultData, err := get_default_settings(database, path)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	fmt.Println(docid)
+	fmt.Println(defaultData)
+	
 	// Set client options
 	clientOptions := options.Client().ApplyURI("mongodb://root:9fP30ErG0fBv5R@localhost:52540")
 

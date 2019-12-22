@@ -26,6 +26,9 @@ func main() {
 		log.Fatal(err)
 	}
 
+	path := []string{settingName}
+	get_default_settings(database, path)
+
 	// Set client options
 	clientOptions := options.Client().ApplyURI("mongodb://root:9fP30ErG0fBv5R@localhost:52540")
 

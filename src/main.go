@@ -57,10 +57,6 @@ func main() {
 
 	fmt.Println(user2Data)
 
-	app := iris.Default()
-
-	app.Run(iris.Addr(":8080"))
-
 	// Set client options
 	clientOptions := options.Client().ApplyURI("mongodb://root:9fP30ErG0fBv5R@localhost:52540")
 
@@ -167,4 +163,19 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Println("Connection to MongoDB closed.")
+
+	app := iris.Default()
+
+	api := app.Party("/api")
+	{
+		v1 := api.Party("/1.0")
+		{
+			v1.Get("/{path:path}", func(ctx iris.Context) {
+				path := ctx.Params().Get("path")
+				ctx.HTML(path)
+			})
+		}
+	}
+
+	app.Run(iris.Addr(":8080"))
 }

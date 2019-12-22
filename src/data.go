@@ -23,7 +23,7 @@ func get_mongo_database() (*mongo.Database, error) {
 	return client.Database("Settings"), nil
 }
 
-func get_default_settings(database *mongo.Database, path []string) (string, error) {
+func get_default_settings(database *mongo.Database, path []string) (string, *bson.Raw, error) {
 	defaults_collection := database.Collection("Defaults")
 
 	filter := bson.D{{"path", path}}
@@ -33,12 +33,16 @@ func get_default_settings(database *mongo.Database, path []string) (string, erro
 	doc, err := result.DecodeBytes()
 
 	if err != nil {
-		return "", err
+		return "", nil, err
 	}
 
 	docidValue := doc.Lookup("_id")
 
 	docid := docidValue.StringValue()
 
-	return docid, nil
+	dataValue := doc.Lookup("data")
+
+	data := dataValue.Document()
+
+	return docid, &data, nil
 }

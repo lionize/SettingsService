@@ -34,6 +34,9 @@ func main() {
 		log.Fatal(err)
 	}
 
+	user1id := "7b803e2d-ee0e-4213-a025-9db732bcbb2e"
+	user2id := "ad2ea197-310a-4832-940c-2935bd6fa511"
+
 	fmt.Println(docid)
 	fmt.Println(defaultData)
 

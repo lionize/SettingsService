@@ -37,8 +37,22 @@ func main() {
 	user1id := "7b803e2d-ee0e-4213-a025-9db732bcbb2e"
 	user2id := "ad2ea197-310a-4832-940c-2935bd6fa511"
 
+	user1Data, err := get_user_settings(database, docid, user1id)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	user2Data, err := get_user_settings(database, docid, user2id)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	fmt.Println(docid)
 	fmt.Println(defaultData)
+	fmt.Println(user1Data)
+	fmt.Println(user2Data)
 
 	// Set client options
 	clientOptions := options.Client().ApplyURI("mongodb://root:9fP30ErG0fBv5R@localhost:52540")

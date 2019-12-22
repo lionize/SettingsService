@@ -6,4 +6,8 @@ $db = Get-MdbcDatabase -Name 'Settings'
 
 $collection = Get-MdbcCollection -Name 'DefaultSettings' -Database $db
 
-Import-MdbcData -Path SampleDefaults.json | Set-MdbcData -Collection $collection -Add
+Import-MdbcData -Path SampleDefaultSettings.json | Set-MdbcData -Collection $collection -Add
+
+$collection = Get-MdbcCollection -Name 'UserSettings' -Database $db
+
+Import-MdbcData -Path SampleUserSettings.json | Set-MdbcData -Collection $collection -Add

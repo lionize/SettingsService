@@ -10,7 +10,7 @@ Task BuildWinx64 -Depends PreBuild {
 
     $env:GOOS = "windows"
     $env:GOARCH = "amd64"
-    Exec { go build -o $outputFile $script:srcFolder }
+    Exec { go build -o $outputFile } -workingDirectory $script:srcFolder
 }
 
 Task BuildWinx86 -Depends PreBuild {
@@ -19,7 +19,7 @@ Task BuildWinx86 -Depends PreBuild {
     
     $env:GOOS = "windows"
     $env:GOARCH = "386"
-    Exec { go build -o $outputFile $script:srcFolder }
+    Exec { go build -o $outputFile } -workingDirectory $script:srcFolder
 }
 
 Task BuildLinux64 -Depends PreBuild {
@@ -28,7 +28,7 @@ Task BuildLinux64 -Depends PreBuild {
 
     $env:GOOS = "linux"
     $env:GOARCH = "amd64"
-    Exec { go build -o $outputFile $script:srcFolder }
+    Exec { go build -o $outputFile } -workingDirectory $script:srcFolder
 }
 
 Task PreBuild -Depends Init, Clean, Format, InstallPackages {
@@ -42,11 +42,11 @@ Task InstallPackages {
 }
 
 Task Format -Depends Clean {
-    Exec { go fmt $script:srcFolder }
+    Exec { go fmt } -workingDirectory $script:srcFolder
 }
 
 Task Clean -Depends Init {
-    Exec { go clean $script:srcFolder }
+    Exec { go clean } -workingDirectory $script:srcFolder
 }
 
 Task Init {

@@ -67,15 +67,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// Check the connection
-	err = client.Ping(context.TODO(), nil)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println("Connected to MongoDB!")
-
 	collection := client.Database("test").Collection("trainers")
 
 	ash := Trainer{"Ash", 10, "Pallet Town"}

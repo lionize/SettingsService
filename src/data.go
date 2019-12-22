@@ -13,7 +13,7 @@ func create_mongo_client() (*mongo.Client, error) {
 	return mongo.Connect(context.TODO(), clientOptions)
 }
 
-func get_mongo_database(client *mongo.Client) (*mongo.Database, error) {
+func get_mongo_database() (*mongo.Database, error) {
 	client, err := create_mongo_client()
 	if err != nil {
 		return nil, err

@@ -54,7 +54,7 @@ func get_user_settings(database *mongo.Database, settingId string, userId string
 
 	result := user_collection.FindOne(context.TODO(), filter)
 
-	if result.Err() != nil {
+	if result.Err() == nil {
 		doc, err := result.DecodeBytes()
 
 		if err != nil {

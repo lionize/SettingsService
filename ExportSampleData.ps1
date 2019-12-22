@@ -7,3 +7,7 @@ $db = Get-MdbcDatabase -Name 'Settings'
 $collection = Get-MdbcCollection -Name 'DefaultSettings' -Database $db
 
 Get-MdbcData | Export-MdbcData -Path SampleDefaultSettings.json
+
+$collection = Get-MdbcCollection -Name 'UserSettings' -Database $db
+
+Get-MdbcData | Export-MdbcData -Path SampleUserSettings.json

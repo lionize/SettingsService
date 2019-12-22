@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -20,4 +21,12 @@ func get_mongo_database() (*mongo.Database, error) {
 	}
 
 	return client.Database("Settings"), nil
+}
+
+func get_default_settings(database *mongo.Database, path []string) {
+	defaults_collection := database.Collection("Defaults")
+
+	filter := bson.D{{"path", path}}
+
+	defaults_collection.FindOne(context.TODO(), filter)
 }

@@ -54,15 +54,19 @@ func get_user_settings(database *mongo.Database, settingId string, userId string
 
 	result := user_collection.FindOne(context.TODO(), filter)
 
-	doc, err := result.DecodeBytes()
+	if result.Err() != nil {
+		doc, err := result.DecodeBytes()
 
-	if err != nil {
-		return nil, err
+		if err != nil {
+			return nil, err
+		}
+
+		dataValue := doc.Lookup("data")
+
+		data := dataValue.Document()
+
+		return &data, nil
 	}
 
-	dataValue := doc.Lookup("data")
-
-	data := dataValue.Document()
-
-	return &data, nil
+	return nil, nil
 }

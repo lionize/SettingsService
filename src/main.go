@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strings"
 
 	"github.com/kataras/iris"
 	"go.mongodb.org/mongo-driver/bson"
@@ -56,6 +57,18 @@ func main() {
 	}
 
 	fmt.Println(user2Data)
+
+	m1, err := merge_settings(defaultData, user1Data)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(m1)
+
+	m2, err := merge_settings(defaultData, user2Data)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(m2)
 
 	// Set client options
 	clientOptions := options.Client().ApplyURI("mongodb://root:9fP30ErG0fBv5R@localhost:52540")
@@ -171,8 +184,15 @@ func main() {
 		v1 := api.Party("/1.0")
 		{
 			v1.Get("/{path:path}", func(ctx iris.Context) {
-				path := ctx.Params().Get("path")
-				ctx.HTML(path)
+				pathPatam := ctx.Params().Get("path")
+
+				path := strings.Split(pathPatam, "/")
+
+				m := make(map[string]interface{})
+
+				m["path"] = path[0]
+
+				ctx.JSON(m)
 			})
 		}
 	}

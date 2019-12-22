@@ -70,3 +70,21 @@ func get_user_settings(database *mongo.Database, settingId string, userId string
 
 	return nil, nil
 }
+
+func merge_settings(docs ...*bson.Raw) (map[string]interface{}, error) {
+	m := make(map[string]interface{})
+
+	first := docs[0]
+
+	elements, err := first.Elements()
+
+	if err != nil {
+		return nil, err
+	}
+
+	for _, element := range elements {
+		m[element.Key()] = element.Value()
+	}
+
+	return m, nil
+}

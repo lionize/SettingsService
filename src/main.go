@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/kataras/iris"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -55,6 +56,10 @@ func main() {
 	}
 
 	fmt.Println(user2Data)
+
+	app := iris.Default()
+
+	app.Run(iris.Addr(":8080"))
 
 	// Set client options
 	clientOptions := options.Client().ApplyURI("mongodb://root:9fP30ErG0fBv5R@localhost:52540")

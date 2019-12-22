@@ -21,12 +21,13 @@ func main() {
 	settingName := "MainPagePagination"
 	fmt.Println("Settings name is ", settingName)
 
+	path := []string{settingName}
+
 	database, err := get_mongo_database()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	path := []string{settingName}
 	get_default_settings(database, path)
 
 	// Set client options

@@ -24,7 +24,7 @@ func get_mongo_database() (*mongo.Database, error) {
 }
 
 func get_default_settings(database *mongo.Database, path []string) (string, *bson.Raw, error) {
-	defaults_collection := database.Collection("Defaults")
+	defaults_collection := database.Collection("DefaultSettings")
 
 	filter := bson.D{{"path", path}}
 

@@ -46,3 +46,23 @@ func get_default_settings(database *mongo.Database, path []string) (string, *bso
 
 	return docid, &data, nil
 }
+
+func get_user_settings(database *mongo.Database, settingId string, userId string) (*bson.Raw, error) {
+	user_collection := database.Collection("UserSettings")
+
+	filter := bson.D{{"_id", bson.D{{"settingId", settingId}, {"userId", userId}}}}
+
+	result := user_collection.FindOne(context.TODO(), filter)
+
+	doc, err := result.DecodeBytes()
+
+	if err != nil {
+		return nil, err
+	}
+
+	dataValue := doc.Lookup("data")
+
+	data := dataValue.Document()
+
+	return &data, nil
+}

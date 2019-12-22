@@ -2,8 +2,10 @@ package main
 
 import (
 	"context"
+	"errors"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/bsontype"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -83,7 +85,36 @@ func merge_settings(docs ...*bson.Raw) (map[string]interface{}, error) {
 	}
 
 	for _, element := range elements {
-		m[element.Key()] = element.Value()
+		settingElement := element.Value()
+		for i := 1; i < len(docs); i++ {
+			if docs[i] != nil {
+				nextDocValue := docs[i].Lookup(element.Key())
+
+				settingElement = nextDocValue
+			}
+
+			switch element.Value().Type {
+			case bsontype.Boolean:
+				m[element.Key()] = settingElement.Boolean()
+			case bsontype.DateTime:
+				m[element.Key()] = settingElement.DateTime()
+			case bsontype.Decimal128:
+				m[element.Key()] = settingElement.Decimal128()
+			case bsontype.Double:
+				m[element.Key()] = settingElement.Double()
+			case bsontype.Int32:
+				m[element.Key()] = settingElement.Int32()
+			case bsontype.Int64:
+				m[element.Key()] = settingElement.Int64()
+			case bsontype.ObjectID:
+				m[element.Key()] = settingElement.ObjectID()
+			case bsontype.String:
+				m[element.Key()] = settingElement.String()
+			default:
+				return nil, errors.New("Unsupported settings type")
+			}
+
+		}
 	}
 
 	return m, nil

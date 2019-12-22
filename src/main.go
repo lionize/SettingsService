@@ -36,7 +36,7 @@ func main() {
 
 	fmt.Println(docid)
 	fmt.Println(defaultData)
-	
+
 	// Set client options
 	clientOptions := options.Client().ApplyURI("mongodb://root:9fP30ErG0fBv5R@localhost:52540")
 

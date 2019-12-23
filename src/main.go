@@ -25,12 +25,12 @@ func main() {
 
 	path := []string{settingName}
 
-	database, err := get_mongo_database()
+	database, err := getMongoDatabase()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	docid, defaultData, err := get_default_settings(database, path)
+	docid, defaultData, err := getDefaultSettings(database, path)
 
 	if err != nil {
 		log.Fatal(err)
@@ -42,7 +42,7 @@ func main() {
 	user1id := "7b803e2d-ee0e-4213-a025-9db732bcbb2e"
 	user2id := "ad2ea197-310a-4832-940c-2935bd6fa511"
 
-	user1Data, err := get_user_settings(database, docid, user1id)
+	user1Data, err := getUserSettings(database, docid, user1id)
 
 	if err != nil {
 		log.Fatal(err)
@@ -50,7 +50,7 @@ func main() {
 
 	fmt.Println(user1Data)
 
-	user2Data, err := get_user_settings(database, docid, user2id)
+	user2Data, err := getUserSettings(database, docid, user2id)
 
 	if err != nil {
 		log.Fatal(err)
@@ -58,13 +58,13 @@ func main() {
 
 	fmt.Println(user2Data)
 
-	m1, err := merge_settings(defaultData, user1Data)
+	m1, err := mergeSettings(defaultData, user1Data)
 	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Println(m1)
 
-	m2, err := merge_settings(defaultData, user2Data)
+	m2, err := mergeSettings(defaultData, user2Data)
 	if err != nil {
 		log.Fatal(err)
 	}

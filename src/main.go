@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"strings"
 
 	"github.com/kataras/iris"
+	"github.com/kataras/iris/hero"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -183,17 +183,9 @@ func main() {
 	{
 		v1 := api.Party("/1.0")
 		{
-			v1.Get("/{path:path}", func(ctx iris.Context) {
-				pathPatam := ctx.Params().Get("path")
-
-				path := strings.Split(pathPatam, "/")
-
-				m := make(map[string]interface{})
-
-				m["path"] = path[0]
-
-				ctx.JSON(m)
-			})
+			hero.Register(&compositeSettingsRetrievalService{})
+			settingsRetrievalHandler := hero.Handler(getSettings)
+			v1.Get("/{path:path}", settingsRetrievalHandler)
 		}
 	}
 

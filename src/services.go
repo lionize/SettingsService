@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"strings"
 )
@@ -35,8 +34,6 @@ func (s *compositeSettingsRetrievalService) GetSettings(path string) map[string]
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	fmt.Println(userData)
 
 	m, err := mergeSettings(defaultData, userData)
 	if err != nil {

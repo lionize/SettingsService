@@ -10,14 +10,14 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func create_mongo_client() (*mongo.Client, error) {
+func createMongoClient() (*mongo.Client, error) {
 	clientOptions := options.Client().ApplyURI("mongodb://root:9fP30ErG0fBv5R@localhost:52540")
 
 	return mongo.Connect(context.TODO(), clientOptions)
 }
 
-func get_mongo_database() (*mongo.Database, error) {
-	client, err := create_mongo_client()
+func getMongoDatabase() (*mongo.Database, error) {
+	client, err := createMongoClient()
 	if err != nil {
 		return nil, err
 	}
@@ -25,12 +25,12 @@ func get_mongo_database() (*mongo.Database, error) {
 	return client.Database("Settings"), nil
 }
 
-func get_default_settings(database *mongo.Database, path []string) (string, *bson.Raw, error) {
-	defaults_collection := database.Collection("DefaultSettings")
+func getDefaultSettings(database *mongo.Database, path []string) (string, *bson.Raw, error) {
+	defaultsCollection := database.Collection("DefaultSettings")
 
 	filter := bson.D{{"path", path}}
 
-	result := defaults_collection.FindOne(context.TODO(), filter)
+	result := defaultsCollection.FindOne(context.TODO(), filter)
 
 	doc, err := result.DecodeBytes()
 
@@ -49,10 +49,10 @@ func get_default_settings(database *mongo.Database, path []string) (string, *bso
 	return docid, &data, nil
 }
 
-func get_user_settings(database *mongo.Database, settingId string, userId string) (*bson.Raw, error) {
+func getUserSettings(database *mongo.Database, settingID string, userID string) (*bson.Raw, error) {
 	userCollection := database.Collection("UserSettings")
 
-	filter := bson.D{{"_id", bson.D{{"settingId", settingId}, {"userId", userId}}}}
+	filter := bson.D{{"_id", bson.D{{"settingId", settingID}, {"userId", userID}}}}
 
 	result := userCollection.FindOne(context.TODO(), filter)
 
@@ -73,7 +73,7 @@ func get_user_settings(database *mongo.Database, settingId string, userId string
 	return nil, nil
 }
 
-func merge_settings(docs ...*bson.Raw) (map[string]interface{}, error) {
+func mergeSettings(docs ...*bson.Raw) (map[string]interface{}, error) {
 	m := make(map[string]interface{})
 
 	first := docs[0]

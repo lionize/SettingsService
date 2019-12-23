@@ -50,11 +50,11 @@ func get_default_settings(database *mongo.Database, path []string) (string, *bso
 }
 
 func get_user_settings(database *mongo.Database, settingId string, userId string) (*bson.Raw, error) {
-	user_collection := database.Collection("UserSettings")
+	userCollection := database.Collection("UserSettings")
 
 	filter := bson.D{{"_id", bson.D{{"settingId", settingId}, {"userId", userId}}}}
 
-	result := user_collection.FindOne(context.TODO(), filter)
+	result := userCollection.FindOne(context.TODO(), filter)
 
 	if result.Err() == nil {
 		doc, err := result.DecodeBytes()

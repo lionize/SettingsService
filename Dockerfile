@@ -1,4 +1,4 @@
-FROM golang:latest
+FROM golang:latest AS build-env
 
 WORKDIR /app
 
@@ -8,6 +8,10 @@ COPY . .
 
 RUN go build -o TIKSN.Lionize.SettingsService .
 
-EXPOSE 8080
+FROM golang:latest
 
-CMD ["./TIKSN.Lionize.SettingsService"]
+WORKDIR /app
+
+COPY --from=build-env /app/TIKSN.Lionize.SettingsService /app/TIKSN.Lionize.SettingsService
+
+ENTRYPOINT ["/app/TIKSN.Lionize.SettingsService"]

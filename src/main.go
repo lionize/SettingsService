@@ -20,56 +20,6 @@ type Trainer struct {
 }
 
 func main() {
-	settingName := "MainPagePagination"
-	fmt.Println("Settings name is ", settingName)
-
-	path := []string{settingName}
-
-	database, err := getMongoDatabase()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	docid, defaultData, err := getDefaultSettings(database, path)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println(docid)
-	fmt.Println(defaultData)
-
-	user1id := "7b803e2d-ee0e-4213-a025-9db732bcbb2e"
-	user2id := "ad2ea197-310a-4832-940c-2935bd6fa511"
-
-	user1Data, err := getUserSettings(database, docid, user1id)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println(user1Data)
-
-	user2Data, err := getUserSettings(database, docid, user2id)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println(user2Data)
-
-	m1, err := mergeSettings(defaultData, user1Data)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(m1)
-
-	m2, err := mergeSettings(defaultData, user2Data)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(m2)
-
 	// Set client options
 	clientOptions := options.Client().ApplyURI("mongodb://root:9fP30ErG0fBv5R@localhost:52540")
 

@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"log"
 	"strings"
 )
 
@@ -14,26 +16,21 @@ type compositeSettingsRetrievalService struct {
 func (s *compositeSettingsRetrievalService) GetSettings(path string) map[string]interface{} {
 	pathParts := strings.Split(path, "/")
 
-	m := make(map[string]interface{})
-
 	database, err := getMongoDatabase()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	docid, defaultData, err := getDefaultSettings(database, path)
+	docid, defaultData, err := getDefaultSettings(database, pathParts)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println(docid)
-	fmt.Println(defaultData)
-
 	userid := "7b803e2d-ee0e-4213-a025-9db732bcbb2e"
 	// userid := "ad2ea197-310a-4832-940c-2935bd6fa511"
 
-	userData, err := getUserSettings(database, docid, user1id)
+	userData, err := getUserSettings(database, docid, userid)
 
 	if err != nil {
 		log.Fatal(err)
@@ -41,13 +38,10 @@ func (s *compositeSettingsRetrievalService) GetSettings(path string) map[string]
 
 	fmt.Println(userData)
 
-	m, err := mergeSettings(defaultData, user1Data)
+	m, err := mergeSettings(defaultData, userData)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(m)
-
-	m["path"] = pathParts[0]
 
 	return m
 }

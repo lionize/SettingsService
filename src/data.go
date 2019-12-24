@@ -5,6 +5,7 @@ import (
 	"errors"
 	"net/url"
 	"os"
+	"strings"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/bsontype"
@@ -34,7 +35,12 @@ func getMongoDatabase() (*mongo.Database, error) {
 		return nil, err
 	}
 
-	return client.Database(u.Path), nil
+	databaseName := u.Path
+	if strings.HasPrefix(databaseName, "/") {
+		databaseName = databaseName[1:]
+	}
+
+	return client.Database(databaseName), nil
 }
 
 func getDefaultSettings(database *mongo.Database, path []string) (string, *bson.Raw, error) {

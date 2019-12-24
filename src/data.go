@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"errors"
+	"net/url"
 	"os"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -28,8 +29,12 @@ func getMongoDatabase() (*mongo.Database, error) {
 	}
 
 	connectionString := getConnectionString()
+	u, err := url.Parse(connectionString)
+	if err != nil {
+		return nil, err
+	}
 
-	return client.Database("Settings"), nil
+	return client.Database(u.Path), nil
 }
 
 func getDefaultSettings(database *mongo.Database, path []string) (string, *bson.Raw, error) {

@@ -11,8 +11,12 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+func getConnectionString() string {
+	return os.Getenv("ConnectionStrings__Mongo")
+}
+
 func createMongoClient() (*mongo.Client, error) {
-	clientOptions := options.Client().ApplyURI(os.Getenv("ConnectionStrings__Mongo"))
+	clientOptions := options.Client().ApplyURI(getConnectionString())
 
 	return mongo.Connect(context.TODO(), clientOptions)
 }
@@ -22,6 +26,8 @@ func getMongoDatabase() (*mongo.Database, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	connectionString := getConnectionString()
 
 	return client.Database("Settings"), nil
 }

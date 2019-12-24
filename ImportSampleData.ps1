@@ -1,8 +1,8 @@
 Import-Module -Name Mdbc
 
-Connect-Mdbc -ConnectionString 'mongodb://root:9fP30ErG0fBv5R@localhost:52540'
+Connect-Mdbc -ConnectionString 'mongodb://root:Xq5xrtzEKj44ueyd@localhost:27017'
 
-$db = Get-MdbcDatabase -Name 'Settings'
+$db = Get-MdbcDatabase -Name 'SettingsService'
 
 $collection = Get-MdbcCollection -Name 'DefaultSettings' -Database $db
 

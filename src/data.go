@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"errors"
+	"os"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/bsontype"
@@ -11,7 +12,7 @@ import (
 )
 
 func createMongoClient() (*mongo.Client, error) {
-	clientOptions := options.Client().ApplyURI("mongodb://root:9fP30ErG0fBv5R@localhost:52540")
+	clientOptions := options.Client().ApplyURI(os.Getenv("ConnectionStrings__Mongo"))
 
 	return mongo.Connect(context.TODO(), clientOptions)
 }

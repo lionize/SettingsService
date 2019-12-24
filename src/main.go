@@ -36,8 +36,8 @@ func main() {
 
 	callbackUrl := fmt.Sprintf("%s/auth/openid-connect/callback", identityBaseAddress)
 	discoveryUrl := fmt.Sprintf("%s/.well-known/openid-configuration", identityBaseAddress)
-	log.Printfln("OpenID Connect callback URL: %s", callbackUrl)
-	log.Printfln("OpenID Connect discovery URL: %s", discoveryUrl)
+	log.Println("OpenID Connect callback URL: ", callbackUrl)
+	log.Println("OpenID Connect discovery URL: ", discoveryUrl)
 
 	openidConnect, _ := openidConnect.New(apiName, apiSecret, callbackUrl, discoveryUrl)
 	if openidConnect != nil {

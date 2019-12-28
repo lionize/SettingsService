@@ -77,12 +77,16 @@ Task BuildLinux64 -Depends PreBuild {
 
 Task PreBuild -Depends Init, Clean, Format, InstallPackages {
     $script:publishFolder = Join-Path -Path $script:trashFolder -ChildPath "bin"
+    
+    Exec { swag init } -workingDirectory $script:srcFolder
 }
 
 Task InstallPackages {
     Exec { go get "go.mongodb.org/mongo-driver/mongo" }
     Exec { go get "go.mongodb.org/mongo-driver/bson" }
     Exec { go get "go.mongodb.org/mongo-driver/mongo/options" }
+    Exec { go get -u "github.com/swaggo/swag/cmd/swag" }
+    Exec { go get "github.com/iris-contrib/swagger" }
 }
 
 Task Format -Depends Clean {
@@ -102,5 +106,9 @@ Task Init {
     New-Item -Path $script:trashFolder -ItemType Directory | Out-Null
     $script:trashFolder = Resolve-Path -Path $script:trashFolder
     $script:srcFolder = Resolve-Path -Path ".\src\" -Relative
+
+    $env:GOPATH="$HOME/go"
+    $env:GOROOT="/usr/lib/go"
+    $env:PATH="$env:PATH:$env:GOROOT/bin:$env:GOPATH/bin"
 }
  

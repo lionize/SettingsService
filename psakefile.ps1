@@ -107,7 +107,10 @@ Task Init {
     $script:trashFolder = Resolve-Path -Path $script:trashFolder
     $script:srcFolder = Resolve-Path -Path ".\src\" -Relative
 
-    $env:GOPATH="$HOME/go"
+    if(-not $env:GOPATH){
+        $env:GOPATH= Join-Path -Path "$HOME" -ChildPath 'go'
+    }
+    
     # $env:GOROOT="/usr/lib/go"
     # $env:PATH="$env:PATH:$env:GOROOT/bin:$env:GOPATH/bin"
 }

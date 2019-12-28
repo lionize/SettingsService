@@ -108,7 +108,7 @@ Task Init {
     $script:srcFolder = Resolve-Path -Path ".\src\" -Relative
 
     $env:GOPATH="$HOME/go"
-    $env:GOROOT="/usr/lib/go"
-    $env:PATH="$env:PATH:$env:GOROOT/bin:$env:GOPATH/bin"
+    # $env:GOROOT="/usr/lib/go"
+    # $env:PATH="$env:PATH:$env:GOROOT/bin:$env:GOPATH/bin"
 }
  

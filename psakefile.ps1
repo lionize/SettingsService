@@ -78,6 +78,8 @@ Task BuildLinux64 -Depends PreBuild {
 Task PreBuild -Depends Init, Clean, Format, InstallPackages {
     $script:publishFolder = Join-Path -Path $script:trashFolder -ChildPath "bin"
     
+    Exec { go mod tidy } -workingDirectory $script:docsFolder
+    Exec { go mod download } -workingDirectory $script:docsFolder
     Exec { go mod tidy } -workingDirectory $script:srcFolder
     Exec { go mod download } -workingDirectory $script:srcFolder
     Exec { swag init } -workingDirectory $script:srcFolder
@@ -108,6 +110,7 @@ Task Init {
     New-Item -Path $script:trashFolder -ItemType Directory | Out-Null
     $script:trashFolder = Resolve-Path -Path $script:trashFolder
     $script:srcFolder = Resolve-Path -Path ".\src\" -Relative
+    $script:docsFolder = Resolve-Path -Path ".\src\docs" -Relative
 
     if (-not $env:GOPATH) {
         $env:GOPATH = Join-Path -Path "$HOME" -ChildPath 'go'

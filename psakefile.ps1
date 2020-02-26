@@ -1,32 +1,32 @@
 Task Publish -Depends Pack {
     Exec { docker login docker.io --username=tiksn }
-     foreach ($VersionTag in $script:VersionTags) {
-         $localTag = ($script:imageName + ":" + $VersionTag)
-         $remoteTag = ("docker.io/" + $localTag)
-         Exec { docker tag $localTag $remoteTag }
-         Exec { docker push $remoteTag }
+    foreach ($VersionTag in $script:VersionTags) {
+        $localTag = ($script:imageName + ":" + $VersionTag)
+        $remoteTag = ("docker.io/" + $localTag)
+        Exec { docker tag $localTag $remoteTag }
+        Exec { docker push $remoteTag }
  
-         try {
-             Exec { keybase chat send --nonblock --private lionize "BUILD: Published $remoteTag" }
-         }
-         catch {
-             Write-Warning "Failed to send notification"
-         }
-     }
- }
+        try {
+            Exec { keybase chat send --nonblock --private lionize "BUILD: Published $remoteTag" }
+        }
+        catch {
+            Write-Warning "Failed to send notification"
+        }
+    }
+}
  
- Task Pack -Depends Build, EstimateVersions {
+Task Pack -Depends Build, EstimateVersions {
     $src = (Resolve-Path ".\src\").Path
     $tagsArguments = @()
-     foreach ($VersionTag in $script:VersionTags) {
-         $tagsArguments += "-t"
-         $tagsArguments += ($script:imageName + ":" + $VersionTag)
-     }
+    foreach ($VersionTag in $script:VersionTags) {
+        $tagsArguments += "-t"
+        $tagsArguments += ($script:imageName + ":" + $VersionTag)
+    }
  
-     Exec { docker build -f Dockerfile $src $tagsArguments }
- }
+    Exec { docker build -f Dockerfile $src $tagsArguments }
+}
  
- Task EstimateVersions {
+Task EstimateVersions {
     $script:VersionTags = @()
  
     if ($Latest) {
@@ -44,7 +44,7 @@ Task Publish -Depends Pack {
     }
  
     Assert $script:VersionTags "No version parameter (latest or specific version) is passed."
- }
+}
  
 Task Build -Depends BuildWinx64, BuildWinx86, BuildLinux64
 
@@ -77,12 +77,20 @@ Task BuildLinux64 -Depends PreBuild {
 
 Task PreBuild -Depends Init, Clean, Format, InstallPackages {
     $script:publishFolder = Join-Path -Path $script:trashFolder -ChildPath "bin"
+    
+    Exec { go mod tidy } -workingDirectory $script:docsFolder
+    Exec { go mod download } -workingDirectory $script:docsFolder
+    Exec { go mod tidy } -workingDirectory $script:srcFolder
+    Exec { go mod download } -workingDirectory $script:srcFolder
+    Exec { swag init } -workingDirectory $script:srcFolder
 }
 
 Task InstallPackages {
     Exec { go get "go.mongodb.org/mongo-driver/mongo" }
     Exec { go get "go.mongodb.org/mongo-driver/bson" }
     Exec { go get "go.mongodb.org/mongo-driver/mongo/options" }
+    Exec { go get -u "github.com/swaggo/swag/cmd/swag" }
+    Exec { go get "github.com/iris-contrib/swagger" }
 }
 
 Task Format -Depends Clean {
@@ -102,5 +110,13 @@ Task Init {
     New-Item -Path $script:trashFolder -ItemType Directory | Out-Null
     $script:trashFolder = Resolve-Path -Path $script:trashFolder
     $script:srcFolder = Resolve-Path -Path ".\src\" -Relative
+    $script:docsFolder = Resolve-Path -Path ".\src\docs" -Relative
+
+    if (-not $env:GOPATH) {
+        $env:GOPATH = Join-Path -Path "$HOME" -ChildPath 'go'
+    }
+    
+    # $env:GOROOT="/usr/lib/go"
+    # $env:PATH="$env:PATH:$env:GOROOT/bin:$env:GOPATH/bin"
 }
  

@@ -37,9 +37,12 @@ func main() {
 	{
 		v1 := api.Party("/1.0")
 		{
-			hero.Register(&compositeSettingsRetrievalService{})
-			settingsRetrievalHandler := hero.Handler(getSettings)
-			v1.Get("/{path:path}", settingsRetrievalHandler)
+			composite := v1.Party("/Composite")
+			{
+				hero.Register(&compositeSettingsRetrievalService{})
+				settingsRetrievalHandler := hero.Handler(getSettings)
+				composite.Get("/{path:path}", settingsRetrievalHandler)
+			}
 		}
 	}
 

@@ -5,14 +5,14 @@ import (
 	"strings"
 )
 
-type settingsRetrievalService interface {
+type SettingsRetrievalService interface {
 	GetSettings(path string) map[string]interface{}
 }
 
-type compositeSettingsRetrievalService struct {
+type CompositeSettingsRetrievalService struct {
 }
 
-func (s *compositeSettingsRetrievalService) GetSettings(path string) map[string]interface{} {
+func (s *CompositeSettingsRetrievalService) GetSettings(path string) map[string]interface{} {
 	pathParts := strings.Split(path, "/")
 
 	database, err := getMongoDatabase()
@@ -43,6 +43,6 @@ func (s *compositeSettingsRetrievalService) GetSettings(path string) map[string]
 	return m
 }
 
-func getSettings(path string, service settingsRetrievalService) map[string]interface{} {
+func getSettings(path string, service SettingsRetrievalService) map[string]interface{} {
 	return service.GetSettings(path)
 }

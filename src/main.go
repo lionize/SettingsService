@@ -60,11 +60,11 @@ func main() {
 	{
 		v1 := api.Party("/1.0")
 		{
-			composite := v1.Party("/Composite")
+			user := v1.Party("/user")
 			{
-				hero.Register(&compositeSettingsRetrievalService{})
+				hero.Register(&CompositeSettingsRetrievalService{})
 				settingsRetrievalHandler := hero.Handler(getSettings)
-				composite.Get("/{path:path}", settingsRetrievalHandler)
+				user.Get("/{path:path}", settingsRetrievalHandler)
 			}
 		}
 	}

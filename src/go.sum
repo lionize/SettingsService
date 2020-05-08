@@ -140,6 +140,8 @@ github.com/iris-contrib/schema v0.0.1 h1:10g/WnoRR+U+XXHWKBHeNy/+tZmM2kcAVGLOsz+
 github.com/iris-contrib/schema v0.0.1/go.mod h1:urYA3uvUNG1TIIjOSCzHr9/LmbQo8LrOcOqfqxa4hXw=
 github.com/iris-contrib/swagger/v12 v12.0.0 h1:nSkkKr7c7NLjhGHnwS9R+Ty2xlbEcfzxvzrpib6ByQ8=
 github.com/iris-contrib/swagger/v12 v12.0.0/go.mod h1:oRhBgke9zU8fkWfzmZ69ebXriO07WKvbM1yvjjh7ulk=
+github.com/iris-contrib/swagger/v12 v12.0.1 h1:ZZ9+dfpWMhIg5L/PUdllQe0sEOvVzp8HQPygklWxeB0=
+github.com/iris-contrib/swagger/v12 v12.0.1/go.mod h1:4RfrpjHi0rhxMdVz0L/IawxpTuZBV51CmsNPlloRtnU=
 github.com/joho/godotenv v1.3.0/go.mod h1:7hK45KPybAkOC6peb+G5yklZfMxEjkZhHbwpqxOKXbg=
 github.com/json-iterator/go v1.1.5/go.mod h1:+SdeFBvtyEkXs7REEP0seUULqWtbJapLOCVDaaPEHmU=
 github.com/json-iterator/go v1.1.6 h1:MrUvLMLTMxbqFJ9kzlvat/rYZqZnW3u4wkLzWTaFwKs=

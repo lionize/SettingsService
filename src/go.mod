@@ -24,5 +24,5 @@ require (
 	github.com/yudai/gojsondiff v1.0.0 // indirect
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
 	github.com/yudai/pp v2.0.1+incompatible // indirect
-	go.mongodb.org/mongo-driver v1.3.5
+	go.mongodb.org/mongo-driver v1.4.0
 )

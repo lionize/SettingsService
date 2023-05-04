@@ -8,5 +8,5 @@ require (
 	github.com/kataras/iris/v12 v12.2.0
 	github.com/lionize/SettingsService/src/docs v0.0.0-20200304133847-88d06fb1b60e
 	github.com/sergi/go-diff v1.1.0 // indirect
-	go.mongodb.org/mongo-driver v1.11.4
+	go.mongodb.org/mongo-driver v1.11.6
 )

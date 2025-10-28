@@ -6,7 +6,7 @@ require (
 	github.com/iris-contrib/swagger/v12 v12.0.1
 	github.com/kataras/iris/v12 v12.2.11
 	github.com/lionize/SettingsService/src/docs v0.0.0-20200304133847-88d06fb1b60e
-	go.mongodb.org/mongo-driver v1.17.4
+	go.mongodb.org/mongo-driver v1.17.6
 )
 
 require (
